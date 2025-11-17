@@ -48,9 +48,26 @@ function PackageIcon() {
   );
 }
 
+function LoginIcon() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="5" width="14" height="14" rx="3" fill={theme.primary} />
+      <path d="M9 12h6M12 9l3 3-3 3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function Home() {
   return (
-    <div dir="rtl" className="min-h-screen flex flex-col items-center justify-center" style={{background: `linear-gradient(135deg, ${theme.bgDark} 0%, ${theme.bgLight} 100%)`}}>
+    <div dir="rtl" className="min-h-screen flex flex-col items-center justify-center relative" style={{background: `linear-gradient(135deg, ${theme.bgDark} 0%, ${theme.bgLight} 100%)`}}>
+      {/* Login Button - Top Right */}
+      <Link to="/login" className="absolute top-4 right-4">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer" style={{ background: theme.primary }}>
+          <LoginIcon />
+          <span className="text-white font-semibold">تسجيل الدخول</span>
+        </div>
+      </Link>
+      
       {/* Logo */}
       <div className="mb-4">
         <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -9,8 +9,10 @@ import Inventory from './Pages/Inventory.jsx';
 import './App.css';
 
 function App() {
+  const basePath = import.meta.env.VITE_BASE_PATH || '/shop-frontend';
+  
   return (
-    <Router>
+    <Router basename={basePath}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
