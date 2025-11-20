@@ -158,5 +158,5 @@ Custom hook for listing and summarizing purchases for the sales inventory (جر�
 - `refetch`: Function to manually refetch list and summary
 
 Notes:
-- The hook uses the `Authorization` token from `localStorage`.
+- Authentication is handled via HTTP-only cookies automatically attached to requests.
 - On request failure, it returns an empty list/summary to keep the UI stable.

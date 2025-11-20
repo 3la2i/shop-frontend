@@ -20,10 +20,7 @@ export function useProducts() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/product`, {
-        headers: { Authorization: token },
-      });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/product`);
       setProducts(res.data);
     } catch {
       throw new Error("فشل في تحميل المنتجات");
@@ -36,15 +33,10 @@ export function useProducts() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
       if (editingProduct) {
-        await axios.put(`${import.meta.env.VITE_API_URL}/api/product/${editingProduct._id}`, formData, {
-          headers: { Authorization: token },
-        });
+        await axios.put(`${import.meta.env.VITE_API_URL}/api/product/${editingProduct._id}`, formData);
       } else {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/product`, formData, {
-          headers: { Authorization: token },
-        });
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/product`, formData);
       }
       resetForm();
       await fetchProducts();
@@ -72,10 +64,7 @@ export function useProducts() {
   // Handle delete
   const handleDelete = async (id) => {
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/product/${id}`, {
-        headers: { Authorization: token },
-      });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/product/${id}`);
       await fetchProducts();
       return { success: true };
     } catch {

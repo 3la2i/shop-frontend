@@ -15,10 +15,7 @@ export function useClients() {
   const fetchClients = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/client`, {
-        headers: { Authorization: token },
-      });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/client`);
       setClients(res.data);
     } catch {
       // Error handling will be done by the component using this hook
@@ -32,15 +29,10 @@ export function useClients() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
       if (editingClient) {
-        await axios.put(`${import.meta.env.VITE_API_URL}/api/client/${editingClient._id}`, formData, {
-          headers: { Authorization: token },
-        });
+        await axios.put(`${import.meta.env.VITE_API_URL}/api/client/${editingClient._id}`, formData);
       } else {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/client`, formData, {
-          headers: { Authorization: token },
-        });
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/client`, formData);
       }
       resetForm();
       await fetchClients();
@@ -65,10 +57,7 @@ export function useClients() {
   // Handle delete
   const handleDelete = async (id) => {
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/client/${id}`, {
-        headers: { Authorization: token },
-      });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/client/${id}`);
       await fetchClients();
       return { success: true };
     } catch {
@@ -81,10 +70,7 @@ export function useClients() {
     setDetailsModalOpen(true);
     setDetailsLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/client/${clientId}/details`, {
-        headers: { Authorization: token },
-      });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/client/${clientId}/details`);
       setClientDetails(res.data);
     } catch {
       throw new Error("فشل في تحميل تفاصيل العميل");
@@ -109,10 +95,7 @@ export function useClients() {
   // Add payment to purchase
   const addPaymentToPurchase = async (paymentData) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/client/${clientDetails.client._id}/payments`, paymentData, {
-        headers: { Authorization: token },
-      });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/client/${clientDetails.client._id}/payments`, paymentData);
       
       // Update client details with the new data
       setClientDetails(res.data.clientDetails);
@@ -128,10 +111,7 @@ export function useClients() {
   // Create purchase for client
   const createPurchaseForClient = async (purchaseData) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/client/${clientDetails.client._id}/purchases`, purchaseData, {
-        headers: { Authorization: token },
-      });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/client/${clientDetails.client._id}/purchases`, purchaseData);
       
       // Update client details with the new data
       setClientDetails(res.data.clientDetails);

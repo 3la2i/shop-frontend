@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { EmptyState, LoadingSpinner, Toast, useToast, useInventory } from "../Compoents";
 
 export default function Inventory() {
   const { toast, toasts, remove } = useToast();
   const { purchases, summary, loading, clients, filters, setFilters, refetch } = useInventory();
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   const formatCurrency = (n) => (Number(n || 0)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   
@@ -97,6 +99,18 @@ export default function Inventory() {
     </svg>
   );
 
+  const ChevronDownIcon = () => (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+
+  const ChevronUpIcon = () => (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+    </svg>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4" dir="rtl">
       <div className="no-print">
@@ -139,73 +153,87 @@ export default function Inventory() {
               </div>
             </div>
 
-            {/* Date Range Inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-              <div className="relative">
-                <label className="block text-xs font-medium text-slate-200 mb-1.5">من تاريخ</label>
-                <div className="relative">
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                    <CalendarIcon />
-                  </div>
-                  <input
-                    type="date"
-                    className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 pr-10 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
-                    value={filters.startDate}
-                    onChange={(e) => setFilters((f) => ({ ...f, startDate: e.target.value }))}
-                  />
-                </div>
-              </div>
-              <div className="relative">
-                <label className="block text-xs font-medium text-slate-200 mb-1.5">إلى تاريخ</label>
-                <div className="relative">
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                    <CalendarIcon />
-                  </div>
-                  <input
-                    type="date"
-                    className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 pr-10 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
-                    value={filters.endDate}
-                    onChange={(e) => setFilters((f) => ({ ...f, endDate: e.target.value }))}
-                  />
-                </div>
-              </div>
-            </div>
+            {/* More Advanced Filtration Button */}
+            <button
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              className="w-full flex items-center justify-between gap-2 px-4 py-2.5 mb-4 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-200"
+            >
+              <span className="text-sm font-medium">فلترة متقدمة أكثر</span>
+              {showAdvancedFilters ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            </button>
 
-            {/* Other Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-              <div>
-                <label className="block text-xs font-medium text-slate-200 mb-1.5 flex items-center gap-1">
-                  <UserIcon />
-                  <span>العميل</span>
-                </label>
-                <select
-                  className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
-                  value={filters.customerId}
-                  onChange={(e) => setFilters((f) => ({ ...f, customerId: e.target.value }))}
-                >
-                  <option value="">الكل</option>
-                  {clients.map(c => (
-                    <option key={c._id} value={c._id}>{c.name}</option>
-                  ))}
-                </select>
+            {/* Advanced Filters (Collapsible) */}
+            {showAdvancedFilters && (
+              <div className="space-y-4 mb-4 animate-in slide-in-from-top-2 duration-200">
+                {/* Date Range Inputs */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="relative">
+                    <label className="block text-xs font-medium text-slate-200 mb-1.5">من تاريخ</label>
+                    <div className="relative">
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        <CalendarIcon />
+                      </div>
+                      <input
+                        type="date"
+                        className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 pr-10 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
+                        value={filters.startDate}
+                        onChange={(e) => setFilters((f) => ({ ...f, startDate: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <label className="block text-xs font-medium text-slate-200 mb-1.5">إلى تاريخ</label>
+                    <div className="relative">
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        <CalendarIcon />
+                      </div>
+                      <input
+                        type="date"
+                        className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 pr-10 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
+                        value={filters.endDate}
+                        onChange={(e) => setFilters((f) => ({ ...f, endDate: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Other Filters */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-200 mb-1.5 flex items-center gap-1">
+                      <UserIcon />
+                      <span>العميل</span>
+                    </label>
+                    <select
+                      className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
+                      value={filters.customerId}
+                      onChange={(e) => setFilters((f) => ({ ...f, customerId: e.target.value }))}
+                    >
+                      <option value="">الكل</option>
+                      {clients.map(c => (
+                        <option key={c._id} value={c._id}>{c.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-200 mb-1.5 flex items-center gap-1">
+                      <StatusIcon />
+                      <span>الحالة</span>
+                    </label>
+                    <select
+                      className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
+                      value={filters.status}
+                      onChange={(e) => setFilters((f) => ({ ...f, status: e.target.value }))}
+                    >
+                      <option value="">الكل</option>
+                      <option value="paid">مدفوع</option>
+                      <option value="partial">مدفوع جزئياً</option>
+                      <option value="unpaid">غير مدفوع</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label className="block text-xs font-medium text-slate-200 mb-1.5 flex items-center gap-1">
-                  <StatusIcon />
-                  <span>الحالة</span>
-                </label>
-                <select
-                  className="w-full rounded-lg bg-white/95 backdrop-blur-sm px-3 py-2.5 text-sm border border-white/30 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
-                  value={filters.status}
-                  onChange={(e) => setFilters((f) => ({ ...f, status: e.target.value }))}
-                >
-                  <option value="">الكل</option>
-                  <option value="paid">مدفوع</option>
-                  <option value="partial">مدفوع جزئياً</option>
-                  <option value="unpaid">غير مدفوع</option>
-                </select>
-              </div>
-            </div>
+            )}
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-2 pt-3 border-t border-white/20">
@@ -237,7 +265,7 @@ export default function Inventory() {
         </div>
 
         {summary && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="bg-white rounded p-3">
               <div className="text-slate-500 text-xs">إجمالي المبيعات</div>
               <div className="text-xl font-bold">{formatCurrency(summary.overall.totalSales)}</div>
