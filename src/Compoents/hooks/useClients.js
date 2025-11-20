@@ -111,7 +111,7 @@ export function useClients() {
   // Create purchase for client
   const createPurchaseForClient = async (purchaseData) => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/client/${clientDetails.client._id}/purchases`, purchaseData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/client/${clientDetails.client._id}/purchases`, purchaseData, { withCredentials: true });
       
       // Update client details with the new data
       setClientDetails(res.data.clientDetails);
