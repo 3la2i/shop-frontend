@@ -9,7 +9,7 @@ import Inventory from './Pages/Inventory.jsx';
 import './App.css';
 
 function App() {
-  const basePath = import.meta.env.VITE_BASE_PATH || '/shop-frontend';
+  const basePath = import.meta.env.VITE_BASE_PATH || '/';
   
   return (
     <Router basename={basePath}>

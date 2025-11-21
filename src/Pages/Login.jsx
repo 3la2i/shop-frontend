@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import theme from '../theme';
-import axios from 'axios';
+import axiosInstance from '../lib/axiosInstance';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -15,7 +15,7 @@ export default function Login() {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.post(`/api/auth/login`, { username, password });
+      const res = await axiosInstance.post(`/api/auth/login`, { username, password });
       if (res.data.token) {
         localStorage.setItem('token', res.data.token);
       }
@@ -45,6 +45,7 @@ export default function Login() {
           className="rounded px-3 py-2 text-white focus:outline-none border w-full mb-2"
           style={{ background: 'rgba(35,40,74,0.7)', borderColor: theme.border }}
           type="text"
+          
           value={username}
           onChange={e => setUsername(e.target.value)}
           placeholder="اسم المستخدم"
