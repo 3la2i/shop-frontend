@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import axiosInstance from "../../lib/axiosInstance";
 
 export function useInventory() {
