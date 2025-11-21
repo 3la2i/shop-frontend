@@ -88,7 +88,7 @@ export default function Products() {
           <LoadingSpinner message="جاري تحميل المنتجات..." />
         ) : (
           <div className="space-y-4">
-            {products.length === 0 ? (
+            {!Array.isArray(products) || products.length === 0 ? (
               <EmptyState />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

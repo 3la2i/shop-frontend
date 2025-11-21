@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import axiosInstance from "../../lib/axiosInstance";
 
 export function useInventory() {
   const [purchases, setPurchases] = useState([]);
@@ -7,6 +8,8 @@ export function useInventory() {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ startDate: "", endDate: "", status: "", customerId: "" });
   const [clients, setClients] = useState([]);
+
+  const tokenHeader = useMemo(() => ({ Authorization: localStorage.getItem("token") }), []);
 
   const buildQuery = () => {
     const params = new URLSearchParams();
@@ -22,8 +25,8 @@ export function useInventory() {
     try {
       const qs = buildQuery();
       const [listRes, sumRes] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/api/purchase${qs ? `?${qs}` : ""}`),
-        axios.get(`${import.meta.env.VITE_API_URL}/api/purchase/summary${qs ? `?${qs}` : ""}`)
+        axiosInstance.get(`/api/purchase${qs ? `?${qs}` : ""}`, { headers: tokenHeader }),
+        axiosInstance.get(`/api/purchase/summary${qs ? `?${qs}` : ""}`, { headers: tokenHeader })
       ]);
       setPurchases(listRes.data || []);
       setSummary(sumRes.data || null);
@@ -38,7 +41,7 @@ export function useInventory() {
 
   const fetchClients = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/client`);
+      const res = await axiosInstance.get(`/api/client`, { headers: tokenHeader });
       setClients(res.data || []);
     } catch {
       // ignore silently in UI; user will still see inventory

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import axiosInstance from "../../lib/axiosInstance";
 
 export function useProducts() {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,10 @@ export function useProducts() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/product`);
+      const token = localStorage.getItem("token");
+      const res = await axiosInstance.get(`/api/product`, {
+        headers: { Authorization: token },
+      });
       setProducts(res.data);
     } catch {
       throw new Error("فشل في تحميل المنتجات");
@@ -33,10 +37,15 @@ export function useProducts() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem("token");
       if (editingProduct) {
-        await axios.put(`${import.meta.env.VITE_API_URL}/api/product/${editingProduct._id}`, formData);
+        await axiosInstance.put(`/api/product/${editingProduct._id}`, formData, {
+          headers: { Authorization: token },
+        });
       } else {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/product`, formData);
+        await axiosInstance.post(`$/api/product`, formData, {
+          headers: { Authorization: token },
+        });
       }
       resetForm();
       await fetchProducts();
@@ -64,7 +73,10 @@ export function useProducts() {
   // Handle delete
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/product/${id}`);
+      const token = localStorage.getItem("token");
+      await axiosInstance.delete(`/api/product/${id}`, {
+        headers: { Authorization: token },
+      });
       await fetchProducts();
       return { success: true };
     } catch {

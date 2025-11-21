@@ -40,6 +40,7 @@ export default function Inventory() {
     window.print();
   };
   const exportCsv = () => {
+    if (!Array.isArray(purchases)) return;
     const header = ['Date','Customer','Items','Total','Paid','Remaining','Status'];
     const rows = purchases.map(p => [
       new Date(p.date || p.createdAt).toLocaleString(),
@@ -210,7 +211,7 @@ export default function Inventory() {
                       onChange={(e) => setFilters((f) => ({ ...f, customerId: e.target.value }))}
                     >
                       <option value="">الكل</option>
-                      {clients.map(c => (
+                      {Array.isArray(clients) && clients.map(c => (
                         <option key={c._id} value={c._id}>{c.name}</option>
                       ))}
                     </select>
@@ -288,7 +289,7 @@ export default function Inventory() {
         {/* List */}
         {loading ? (
           <LoadingSpinner message="جاري تحميل الجرد..." />
-        ) : purchases.length === 0 ? (
+        ) : !Array.isArray(purchases) || purchases.length === 0 ? (
           <EmptyState />
         ) : (
           <div className="space-y-3">

@@ -24,7 +24,10 @@ export default function PurchaseForm({
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/product`);
+      const token = localStorage.getItem("token");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/product`, {
+        headers: { Authorization: token },
+      });
       setProducts(res.data);
     } catch (error) {
       console.error("Error fetching products:", error);

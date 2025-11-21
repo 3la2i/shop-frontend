@@ -15,7 +15,10 @@ export default function Login() {
     setLoading(true);
     setError('');
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { username, password }, { withCredentials: true });
+      const res = await axios.post(`/api/auth/login`, { username, password });
+      if (res.data.token) {
+        localStorage.setItem('token', res.data.token);
+      }
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');

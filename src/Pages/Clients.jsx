@@ -140,7 +140,7 @@ export default function Clients() {
           <LoadingSpinner message="جاري تحميل العملاء..." />
         ) : (
           <div className="space-y-3">
-            {clients.length === 0 ? (
+            {!Array.isArray(clients) || clients.length === 0 ? (
               <EmptyState />
             ) : (
               clients.map((client) => (
