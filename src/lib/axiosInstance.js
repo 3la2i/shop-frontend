@@ -1,9 +1,9 @@
 import axios from "axios";
 
-console.log('=======env urldsd', process.env.API_BASE_URL)
+console.log('=======env url', import.meta.env.VITE_API_BASE_URL)
 
 const axiosInstance = axios.create({
-    baseURL: process.env.API_BASE_URL
+    baseURL: import.meta.env.VITE_API_BASE_URL
 })
 
 
