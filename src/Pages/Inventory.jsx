@@ -8,31 +8,55 @@ export default function Inventory() {
 
   const formatCurrency = (n) => (Number(n || 0)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   
-  // Add quick date range presets
-  const applyDatePreset = (preset) => {
+  // Helper function to get expected dates for a preset
+  const getPresetDates = (preset) => {
     const today = new Date();
     const start = new Date();
     
     switch(preset) {
       case 'today':
         start.setHours(0, 0, 0, 0);
-        setFilters(f => ({ ...f, startDate: start.toISOString().split('T')[0], endDate: today.toISOString().split('T')[0] }));
-        break;
+        return {
+          startDate: start.toISOString().split('T')[0],
+          endDate: today.toISOString().split('T')[0]
+        };
       case 'week':
         start.setDate(today.getDate() - 7);
-        setFilters(f => ({ ...f, startDate: start.toISOString().split('T')[0], endDate: today.toISOString().split('T')[0] }));
-        break;
+        return {
+          startDate: start.toISOString().split('T')[0],
+          endDate: today.toISOString().split('T')[0]
+        };
       case 'month':
         start.setMonth(today.getMonth() - 1);
-        setFilters(f => ({ ...f, startDate: start.toISOString().split('T')[0], endDate: today.toISOString().split('T')[0] }));
-        break;
+        return {
+          startDate: start.toISOString().split('T')[0],
+          endDate: today.toISOString().split('T')[0]
+        };
       case 'year':
         start.setFullYear(today.getFullYear() - 1);
-        setFilters(f => ({ ...f, startDate: start.toISOString().split('T')[0], endDate: today.toISOString().split('T')[0] }));
-        break;
+        return {
+          startDate: start.toISOString().split('T')[0],
+          endDate: today.toISOString().split('T')[0]
+        };
       case 'clear':
-        setFilters(f => ({ ...f, startDate: '', endDate: '' }));
-        break;
+        return { startDate: '', endDate: '' };
+      default:
+        return null;
+    }
+  };
+
+  // Check if a preset is currently active
+  const isPresetActive = (preset) => {
+    const presetDates = getPresetDates(preset);
+    if (!presetDates) return false;
+    return filters.startDate === presetDates.startDate && filters.endDate === presetDates.endDate;
+  };
+
+  // Add quick date range presets
+  const applyDatePreset = (preset) => {
+    const presetDates = getPresetDates(preset);
+    if (presetDates) {
+      setFilters(f => ({ ...f, startDate: presetDates.startDate, endDate: presetDates.endDate }));
     }
   };
 
@@ -136,21 +160,29 @@ export default function Inventory() {
                 <span>نطاق التاريخ السريع</span>
               </label>
               <div className="flex flex-wrap gap-2">
+              
                 {[
                   { key: 'today', label: 'اليوم' },
                   { key: 'week', label: 'آخر 7 أيام' },
                   { key: 'month', label: 'آخر شهر' },
                   { key: 'year', label: 'آخر سنة' },
                   { key: 'clear', label: 'مسح' }
-                ].map(preset => (
-                  <button
-                    key={preset.key}
-                    onClick={() => applyDatePreset(preset.key)}
-                    className="px-3 py-1.5 text-xs font-medium rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30 transition-all duration-200"
-                  >
-                    {preset.label}
-                  </button>
-                ))}
+                ].map(preset => {
+                  const isActive = isPresetActive(preset.key);
+                  return (
+                    <button
+                      key={preset.key}
+                      onClick={() => applyDatePreset(preset.key)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 ${
+                        isActive
+                          ? 'bg-blue-500 hover:bg-blue-600 text-white border border-blue-400 shadow-lg'
+                          : 'bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/30'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 

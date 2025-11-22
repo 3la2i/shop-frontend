@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import axiosInstance from "../../lib/axiosInstance";
+import { getCookie } from "../../utils/cookies";
 
 export function useInventory() {
   const [purchases, setPurchases] = useState([]);
@@ -8,7 +9,7 @@ export function useInventory() {
   const [filters, setFilters] = useState({ startDate: "", endDate: "", status: "", customerId: "" });
   const [clients, setClients] = useState([]);
 
-  const tokenHeader = useMemo(() => ({ Authorization: localStorage.getItem("token") }), []);
+  const tokenHeader = useMemo(() => ({ Authorization: getCookie("token") }), []);
 
   const buildQuery = () => {
     const params = new URLSearchParams();

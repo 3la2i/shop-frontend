@@ -1,5 +1,7 @@
 import theme from '../theme';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { checkAuth } from '../Compoents/auth';
+import { deleteCookie } from '../utils/cookies';
 
 function UserIcon() {
   return (
@@ -57,16 +59,45 @@ function LoginIcon() {
   );
 }
 
+function LogoutIcon() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="7" y="5" width="14" height="14" rx="3" fill={theme.primary} />
+      <path d="M15 12H7M12 9l-3 3 3 3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function Home() {
+  const navigate = useNavigate();
+  const isAuthenticated = checkAuth();
+
+  const handleLogout = () => {
+    deleteCookie('token');
+    navigate('/login');
+  };
+
   return (
     <div dir="rtl" className="min-h-screen flex flex-col items-center justify-center relative" style={{background: `linear-gradient(135deg, ${theme.bgDark} 0%, ${theme.bgLight} 100%)`}}>
-      {/* Login Button - Top Right */}
-      <Link to="/login" className="absolute top-4 right-4">
-        <div className="flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer" style={{ background: theme.primary }}>
-          <LoginIcon />
-          <span className="text-white font-semibold">تسجيل الدخول</span>
-        </div>
-      </Link>
+      {/* Login/Logout Button - Top Right */}
+      {isAuthenticated ? (
+        <button 
+          onClick={handleLogout}
+          className="absolute top-4 right-4"
+        >
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer" style={{ background: theme.primary }}>
+            <LogoutIcon />
+            <span className="text-white font-semibold">تسجيل الخروج</span>
+          </div>
+        </button>
+      ) : (
+        <Link to="/login" className="absolute top-4 right-4">
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer" style={{ background: theme.primary }}>
+            <LoginIcon />
+            <span className="text-white font-semibold">تسجيل الدخول</span>
+          </div>
+        </Link>
+      )}
       
       {/* Logo */}
       <div className="mb-4">
@@ -93,12 +124,7 @@ export default function Home() {
           </div>
         </Link>
     
-        {/* <Link to="/inventory" className="block">
-          <div className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 h-28 hover:shadow-lg transition-shadow cursor-pointer">
-            <DebtIcon />
-            <span className="mt-2 text-slate-700 font-semibold">الديون</span>
-          </div>
-        </Link> */}
+
         
         <Link to="/inventory" className="block">
           <div className="flex flex-col items-center justify-center bg-white rounded-xl shadow p-4 h-28 hover:shadow-lg transition-shadow cursor-pointer">

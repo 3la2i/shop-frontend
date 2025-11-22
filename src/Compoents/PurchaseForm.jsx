@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ShoppingBag, X, Plus, Trash2 } from "lucide-react";
 import axiosInstance from "../lib/axiosInstance";
+import { getCookie } from "../utils/cookies";
 
 export default function PurchaseForm({ 
   isOpen, 
@@ -24,7 +25,7 @@ export default function PurchaseForm({
 
   const fetchProducts = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       const res = await axiosInstance.get(`/api/product`, {
         headers: { Authorization: token },
       });

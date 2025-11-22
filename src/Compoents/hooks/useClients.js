@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../../lib/axiosInstance";
+import { getCookie } from "../../utils/cookies";
 
 export function useClients() {
   const [clients, setClients] = useState([]);
@@ -14,9 +15,9 @@ export function useClients() {
   // Fetch all clients
   const fetchClients = async () => {
     setLoading(true);
-    console.log('dsddd', import.meta.env.VITE_API_URL)
+    // console.log('dsddd', import.meta.env.VITE_API_URL)
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       const res = await axiosInstance.get(`/api/client`, {
         headers: { Authorization: token },
       });
@@ -33,7 +34,7 @@ export function useClients() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       if (editingClient) {
         await axiosInstance.put(`/api/client/${editingClient._id}`, formData, {
           headers: { Authorization: token },
@@ -66,7 +67,7 @@ export function useClients() {
   // Handle delete
   const handleDelete = async (id) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       await axiosInstance.delete(`/api/client/${id}`, {
         headers: { Authorization: token },
       });
@@ -82,7 +83,7 @@ export function useClients() {
     setDetailsModalOpen(true);
     setDetailsLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       const res = await axiosInstance.get(`/api/client/${clientId}/details`, {
         headers: { Authorization: token },
       });
@@ -110,7 +111,7 @@ export function useClients() {
   // Add payment to purchase
   const addPaymentToPurchase = async (paymentData) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       const res = await axiosInstance.post(`/api/client/${clientDetails.client._id}/payments`, paymentData, {
         headers: { Authorization: token },
       });
@@ -129,7 +130,7 @@ export function useClients() {
   // Create purchase for client
   const createPurchaseForClient = async (purchaseData) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       const res = await axiosInstance.post(`/api/client/${clientDetails.client._id}/purchases`, purchaseData, {
         headers: { Authorization: token },
       });

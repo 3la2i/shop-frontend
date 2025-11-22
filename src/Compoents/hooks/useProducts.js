@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../../lib/axiosInstance";
+import { getCookie } from "../../utils/cookies";
 
 export function useProducts() {
   const [products, setProducts] = useState([]);
@@ -20,7 +21,7 @@ export function useProducts() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       const res = await axiosInstance.get(`/api/product`, {
         headers: { Authorization: token },
       });
@@ -36,7 +37,7 @@ export function useProducts() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       if (editingProduct) {
         await axiosInstance.put(`/api/product/${editingProduct._id}`, formData, {
           headers: { Authorization: token },
@@ -72,7 +73,7 @@ export function useProducts() {
   // Handle delete
   const handleDelete = async (id) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       await axiosInstance.delete(`/api/product/${id}`, {
         headers: { Authorization: token },
       });

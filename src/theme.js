@@ -1,5 +1,5 @@
 const theme = {
-  bgDark: '#181c2f', // dark background from login
+  bgDark: '#1c293d', // dark background from login
   bgLight: '#23284a', // lighter gradient stop
   primary: '#5f4dee', // purple accent (login button)
   primaryDark: '#3a2fa4', // darker accent
