@@ -33,52 +33,45 @@ export default function Clients() {
     createPurchaseForClient,
   } = useClients();
 
-  // Enhanced submit handler with error handling
   const onSubmit = async (e) => {
     try {
       await handleSubmit(e);
-      toast({ 
-        title: editingClient ? "تم التحديث" : "تم الإضافة", 
-        description: editingClient ? "تم تحديث بيانات العميل بنجاح" : "تم إضافة العميل الجديد بنجاح" 
+      toast({
+        title: editingClient ? "تم التحديث" : "تم الإضافة",
+        description: editingClient ? "تم تحديث بيانات العميل بنجاح" : "تم إضافة العميل الجديد بنجاح",
       });
     } catch (error) {
-      toast({ 
-        title: "خطأ", 
-        description: error.message, 
-        variant: "destructive" 
+      toast({
+        title: "خطأ",
+        description: error.message,
+        variant: "destructive",
       });
     }
   };
 
-  // Enhanced delete handler with confirmation
   const onDelete = async (id) => {
     if (window.confirm("هل أنت متأكد من حذف هذا العميل؟")) {
       try {
         await handleDelete(id);
         toast({ title: "تم الحذف", description: "تم حذف العميل بنجاح" });
       } catch (error) {
-        toast({ 
-          title: "خطأ", 
-          description: error.message, 
-          variant: "destructive" 
+        toast({
+          title: "خطأ",
+          description: error.message,
+          variant: "destructive",
         });
       }
     }
   };
 
-  // Enhanced details handler with error handling
   const onShowDetails = async (clientId) => {
     try {
       await handleShowDetails(clientId);
-      toast({ 
-        title: "تم التحميل", 
-        description: "تم تحميل تفاصيل العميل بنجاح" 
-      });
     } catch (error) {
-      toast({ 
-        title: "خطأ", 
-        description: error.message, 
-        variant: "destructive" 
+      toast({
+        title: "خطأ",
+        description: error.message,
+        variant: "destructive",
       });
     }
   };
@@ -86,56 +79,61 @@ export default function Clients() {
   const onAddPayment = async (paymentData) => {
     try {
       await addPaymentToPurchase(paymentData);
-      toast({ 
-        title: "تم الإضافة", 
-        description: "تم إضافة الدفعة بنجاح" 
+      toast({
+        title: "تم الإضافة",
+        description: "تم إضافة الدفعة بنجاح",
       });
     } catch (error) {
-      toast({ 
-        title: "خطأ", 
-        description: error.message, 
-        variant: "destructive" 
+      toast({
+        title: "خطأ",
+        description: error.message,
+        variant: "destructive",
       });
-      throw error; // Re-throw to be handled by the form
+      throw error;
     }
   };
 
   const onCreatePurchase = async (purchaseData) => {
     try {
       await createPurchaseForClient(purchaseData);
-      toast({ 
-        title: "تم الإضافة", 
-        description: "تم إضافة المشترى بنجاح" 
+      toast({
+        title: "تم الإضافة",
+        description: "تم إضافة المشترى بنجاح",
       });
     } catch (error) {
-      toast({ 
-        title: "خطأ", 
-        description: error.message, 
-        variant: "destructive" 
+      toast({
+        title: "خطأ",
+        description: error.message,
+        variant: "destructive",
       });
-      throw error; // Re-throw to be handled by the form
+      throw error;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4" dir="rtl">
+    <div className="min-h-screen bg-background" dir="rtl">
       <Toast toasts={toasts} remove={remove} />
-      <div className="max-w-md mx-auto space-y-4">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">العملاء</h1>
-          <button onClick={() => setShowAddForm(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded flex items-center text-sm">
-            <Plus className="w-4 h-4 ml-1" /> إضافة عميل
+      <div className="sticky top-0 z-30 bg-surface/95 backdrop-blur-lg border-b border-border px-4 py-4">
+        <div className="max-w-md mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-text">العملاء</h1>
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="bg-primary hover:bg-primary-dark text-white p-3 rounded-xl flex items-center justify-center transition-colors active:scale-95"
+            title="إضافة عميل جديد"
+          >
+            <Plus className="w-5 h-5" />
           </button>
         </div>
-        <ClientForm
-          showForm={showAddForm}
-          editingClient={editingClient}
-          formData={formData}
-          setFormData={setFormData}
-          onSubmit={onSubmit}
-          onCancel={resetForm}
-        />
+      </div>
+      <ClientForm
+        showForm={showAddForm}
+        editingClient={editingClient}
+        formData={formData}
+        setFormData={setFormData}
+        onSubmit={onSubmit}
+        onCancel={resetForm}
+      />
+      <div className="max-w-md mx-auto px-4 py-4 pb-20">
         {loading ? (
           <LoadingSpinner message="جاري تحميل العملاء..." />
         ) : (
@@ -155,15 +153,15 @@ export default function Clients() {
             )}
           </div>
         )}
-        <ClientDetailsModal
-          isOpen={detailsModalOpen}
-          onClose={closeDetailsModal}
-          clientDetails={clientDetails}
-          detailsLoading={detailsLoading}
-          onAddPayment={onAddPayment}
-          onCreatePurchase={onCreatePurchase}
-        />
       </div>
+      <ClientDetailsModal
+        isOpen={detailsModalOpen}
+        onClose={closeDetailsModal}
+        clientDetails={clientDetails}
+        detailsLoading={detailsLoading}
+        onAddPayment={onAddPayment}
+        onCreatePurchase={onCreatePurchase}
+      />
     </div>
   );
 } 

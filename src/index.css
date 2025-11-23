@@ -1,5 +1,42 @@
 @import "tailwindcss";
 
+/* Modern dark theme CSS variables */
+:root {
+  --color-background: #0f172a;
+  --color-surface: #1a1f35;
+  --color-surface-light: #252d45;
+  --color-border: #3a4458;
+  --color-text: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+  --color-primary: #06b6d4;
+  --color-primary-dark: #0891b2;
+  --color-accent: #10b981;
+  --color-accent-dark: #059669;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+}
+
+/* Utility classes for theme colors */
+.bg-background { background-color: var(--color-background); }
+.bg-surface { background-color: var(--color-surface); }
+.bg-surface-light { background-color: var(--color-surface-light); }
+.border-border { border-color: var(--color-border); }
+.text-text { color: var(--color-text); }
+.text-text-secondary { color: var(--color-text-secondary); }
+.text-text-tertiary { color: var(--color-text-tertiary); }
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-warning { color: var(--color-warning); }
+.text-danger { color: var(--color-danger); }
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-dark { background-color: var(--color-primary-dark); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-accent-dark { background-color: var(--color-accent-dark); }
+.bg-warning { background-color: var(--color-warning); }
+.bg-danger { background-color: var(--color-danger); }
+
 /* Custom animations */
 @keyframes slide-up {
   from {
@@ -12,6 +49,54 @@
   }
 }
 
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
+}
+
+.animate-in {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+.slide-in-from-bottom-5 {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+.slide-in-from-bottom-4 {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+/* Float animation for background blobs */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(30px);
+  }
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }

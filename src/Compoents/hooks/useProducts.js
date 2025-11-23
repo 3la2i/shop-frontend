@@ -43,7 +43,7 @@ export function useProducts() {
           headers: { Authorization: token },
         });
       } else {
-        await axiosInstance.post(`$/api/product`, formData, {
+        await axiosInstance.post(`/api/product`, formData, {
           headers: { Authorization: token },
         });
       }
