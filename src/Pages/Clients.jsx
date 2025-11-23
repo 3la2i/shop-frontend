@@ -113,8 +113,8 @@ export default function Clients() {
   return (
     <div className="min-h-screen bg-background" dir="rtl">
       <Toast toasts={toasts} remove={remove} />
-      <div className="sticky top-0 z-30 bg-surface/95 backdrop-blur-lg border-b border-border px-4 py-4">
-        <div className="max-w-md mx-auto flex justify-between items-center">
+      <div className=" top-0 z-30 bg-surface/95 backdrop-blur-lg border-b border-border px-4 py-4">
+        <div className="  mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-text">العملاء</h1>
           <button
             onClick={() => setShowAddForm(true)}

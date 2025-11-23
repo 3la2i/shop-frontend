@@ -141,7 +141,6 @@ export default function Home() {
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-amber-500/10 to-transparent pointer-events-none" />
 
 
-
                 <div className="relative z-10">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     <BarChart3 className="w-7 h-7 text-white" />
