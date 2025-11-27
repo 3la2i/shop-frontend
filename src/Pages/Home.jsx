@@ -10,7 +10,11 @@ export default function Home() {
   
   const handleLogout = () => {
     deleteCookie('token');
-    navigate('/login');
+    // Use window.location.replace for reliable logout redirect
+    // This avoids conflicts with ProtectedRoute navigation
+    const basePath = import.meta.env.VITE_BASE_PATH || '';
+    const loginPath = `${basePath}/login`.replace(/\/+/g, '/'); // Remove duplicate slashes
+    window.location.replace(loginPath);
   };
   
   const { summary, purchases } = useInventory();
