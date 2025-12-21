@@ -40,7 +40,7 @@ export function useClients() {
           headers: { Authorization: token },
         });
       } else {
-        await axiosInstance.post(`${import.meta.env.VITE_API_URL}/api/client`, formData, {
+        await axiosInstance.post(`/api/client`, formData, {
           headers: { Authorization: token },
         });
       }
