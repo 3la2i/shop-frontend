@@ -70,7 +70,7 @@ export default function PurchaseForm({
     if (field === 'productId') {
       const selectedProduct = products.find(p => p._id === value);
       if (selectedProduct) {
-        newItems[index].unitPrice = selectedProduct.wholesalePrice;
+        newItems[index].unitPrice = selectedProduct.retailPrice;//here is سعر التجزئة
         // Reset quantity to 1 when product changes
         newItems[index].quantity = 1;
       }
@@ -261,7 +261,7 @@ export default function PurchaseForm({
                         <option value="">اختر المنتج</option>
                         {products.map((product) => (
                           <option key={product._id} value={product._id}>
-                            {product.name} - {product.wholesalePrice} د.أ
+                            {product.name} - {product.retailPrice} د.أ
                           </option>
                         ))}
                       </select>

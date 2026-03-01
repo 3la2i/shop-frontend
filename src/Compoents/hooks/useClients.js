@@ -11,7 +11,7 @@ export function useClients() {
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [clientDetails, setClientDetails] = useState(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
-
+  
   // Fetch all clients
   const fetchClients = async () => {
     setLoading(true);
@@ -35,9 +35,12 @@ export function useClients() {
     e.preventDefault();
     try {
       const token = getCookie("token");
+    
       if (editingClient) {
+        
         await axiosInstance.put(`/api/client/${editingClient._id}`, formData, {
           headers: { Authorization: token },
+
         });
       } else {
         await axiosInstance.post(`/api/client`, formData, {

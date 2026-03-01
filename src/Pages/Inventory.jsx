@@ -326,16 +326,17 @@ export default function Inventory() {
               <DownloadIcon />
               <span className="hidden sm:inline">تصدير CSV</span>
             </button>
-            <button
+            <button 
+            
               className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-emerald-500/20"
               onClick={exportPdf}
             >
               <DownloadIcon />
-              <span className="hidden sm:inline">تصدير PDF</span>
+              <span className=" sm:inline">تصدير PDF</span>
             </button>
           </div>
         </div>
-
+          
         {/* Summary Cards */}
         {summary && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

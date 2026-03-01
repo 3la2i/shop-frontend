@@ -111,7 +111,7 @@ export default function Clients() {
   };
 
   return (
-    <div className="min-h-screen bg-background" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4" dir="rtl">
       <Toast toasts={toasts} remove={remove} />
       <div className=" top-0 z-30 bg-surface/95 backdrop-blur-lg border-b border-border px-4 py-4">
         <div className="  mx-auto flex justify-between items-center">
