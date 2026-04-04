@@ -254,7 +254,7 @@ export default function Home() {
       {/* Footer */}
       <div className="relative z-10 px-4 py-6 sm:py-8 border-t border-slate-700/50 backdrop-blur-sm bg-slate-900/50">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-sm text-slate-400">© 2025 شركة مياه الموارد. جميع الحقوق محفوظة</p>
+          <p className="text-sm text-slate-400">© 2026 شركة مياه الموارد. جميع الحقوق محفوظة</p>
         </div>
       </div>
     </div>
