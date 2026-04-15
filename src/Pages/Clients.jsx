@@ -133,7 +133,7 @@ export default function Clients() {
         onSubmit={onSubmit}
         onCancel={resetForm}
       />
-      <div className="max-w-md mx-auto px-4 py-4 pb-20">
+      <div className="max-w-md mx-auto px-4 py-4 pb-10">
         {loading ? (
           <LoadingSpinner message="جاري تحميل العملاء..." />
         ) : (

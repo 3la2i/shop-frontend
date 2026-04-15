@@ -1,12 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Users, Package, BarChart3, LogOut, LogIn, TrendingUp, DollarSign } from 'lucide-react';
-import { checkAuth } from '../Compoents/auth';
+import { checkAuth, getAuthUser } from '../Compoents/auth';
 import { deleteCookie } from '../utils/cookies';
 import { useInventory, useClients, useProducts } from "../Compoents";
 
 export default function Home() {
   const navigate = useNavigate();
   const isAuthenticated = checkAuth();
+  const user = getAuthUser();
   
   const handleLogout = () => {
     deleteCookie('token');
@@ -79,13 +80,20 @@ export default function Home() {
 
           {/* Auth Button */}
           {isAuthenticated ? (
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-300 transition-all active:scale-95 border border-red-500/30"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="text-sm font-medium hidden sm:inline">الخروج</span>
-            </button>
+            <div className="flex items-center gap-3">
+              {user?.username && (
+                <span className="flex items-center gap-3 px-4 py-1.5 rounded-xl bg-green-500/20 hover:bg-green-500/30 text-green-300 transition-all active:scale-95 border border-green-500/30">
+                  {user.username}
+                </span>
+              )}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-300 transition-all active:scale-95 border border-red-500/30"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-sm font-medium hidden sm:inline">الخروج</span>
+              </button>
+            </div>
           ) : (
             <Link
               to="/login"

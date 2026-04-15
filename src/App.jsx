@@ -6,6 +6,7 @@ import Products from './Pages/Products.jsx';
 import Inventory from './Pages/Inventory.jsx';
 import ProtectedRoute from './Compoents/ProtectedRoute';
 import { checkAuth } from './Compoents/auth';
+
 // import MouseFollower from './Compoents/mouseFollower.jsx';
 import './App.css';
 

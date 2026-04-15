@@ -37,3 +37,16 @@ export function checkAuth() {
   }
   return true;
 }
+
+export function getAuthUser() {
+  const token = getCookie('token');
+  if (!token) return null;
+
+  const payload = decodeJWT(token);
+  if (!payload) return null;
+
+  return {
+    id: payload.id || null,
+    username: payload.username || '',
+  };
+}
